@@ -1,295 +1,199 @@
-/* next.config.js */
-module.exports = {
-  reactStrictMode: true,
-  images: {
-    domains: [],
-  },
-};
-
-/* tailwind.config.js */
-module.exports = {
-  content: [
-    './src/**/*.{js,ts,jsx,tsx}',
-    './public/index.html'
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
-
-/* tsconfig.json */
-{
-  "compilerOptions": {
-    "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noEmit": true,
-    "esModuleInterop": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "jsx": "preserve"
-  },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
-}
-
-/* package.json */
-{
-  "name": "fitcoach",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "tailwindcss": "^3.0.0"
-  },
-  "devDependencies": {
-    "autoprefixer": "^10.0.0",
-    "postcss": "^8.0.0",
-    "typescript": "^4.0.0"
-  }
-}
-
-/* postcss.config.js */
-module.exports = {
-  plugins: {
-    tailwindcss: {},
-    autoprefixer: {},
-  },
-};
-
-/* src/styles/globals.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-/* src/utils/api.ts */
-export async function submitContact({ name, email, message }: { name: string; email: string; message: string }) {
-  const res = await fetch('/api/contact', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, email, message }),
-  });
-  if (!res.ok) throw new Error('Network error');
-  return res.json();
-}
-
-/* src/components/Hero.tsx */
-export default function Hero() {
-  return (
-    <section id="hero" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-green-500 text-white">
-      <div className="text-center">
-        <h1 className="text-5xl font-bold mb-4">FITCOACH</h1>
-        <p className="text-xl mb-6">Twój osobisty trener online - zacznij swoją przemianę dziś!</p>
-        <a href="#contact" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Skontaktuj się</a>
-      </div>
-    </section>
-  );
-}
-
-/* src/components/AboutCoach.tsx */
-export default function AboutCoach() {
-  return (
-    <section id="about" className="py-16 bg-white">
-      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center">
-        <img src="/images/coach.webp" alt="Trener FITCOACH" className="w-full md:w-1/2 rounded-lg shadow-lg mb-8 md:mb-0" loading="lazy" />
-        <div className="md:ml-10">
-          <h2 className="text-3xl font-semibold mb-4">O mnie</h2>
-          <p className="text-gray-700 mb-4">
-            Jestem certyfikowanym trenerem personalnym z 10-letnim doświadczeniem. Specjalizuję się w treningach siłowych oraz dietetyce sportowej.
-          </p>
-          <p className="text-gray-700">
-            Pomogłem setkom osób osiągnąć ich cele fitness – od utraty wagi, przez budowę masy mięśniowej, po poprawę wydolności.
-          </p>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* src/components/Pricing.tsx */
-const plans = [
-  { name: 'Podstawowy', price: '99 PLN', features: ['Plan tygodniowy', 'Wsparcie email'] },
-  { name: 'Standard', price: '199 PLN', features: ['Plan miesięczny', 'Wsparcie telefoniczne'] },
-  { name: 'Premium', price: '299 PLN', features: ['Plan kwartalny', 'Sesje video 1:1'] },
-];
-export default function Pricing() {
-  return (
-    <section id="pricing" className="py-16 bg-gray-50">
-      <h2 className="text-3xl font-semibold text-center mb-8">Cennik</h2>
-      <div className="max-w-4xl mx-auto grid gap-6 md:grid-cols-3">
-        {plans.map((plan) => (
-          <div key={plan.name} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
-            <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
-            <p className="text-4xl font-semibold mb-4">{plan.price}</p>
-            <ul className="mb-6 space-y-2">
-              {plan.features.map((f) => (
-                <li key={f} className="flex items-center">
-                  <span className="mr-2">✔️</span> {f}
-                </li>
-              ))}
-            </ul>
-            <a href="#contact" className="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Wybierz</a>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* src/components/Schedule.tsx */
-export default function Schedule() {
-  return (
-    <section id="schedule" className="py-16 bg-white">
-      <h2 className="text-3xl font-semibold text-center mb-8">Harmonogram</h2>
-      <div className="max-w-3xl mx-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="p-3">Dzień</th>
-              <th className="p-3">Trening</th>
-            </tr>
-          </thead>
-          <tbody>
-            {['Pon', 'Wt', 'Śr', 'Czw', 'Pt'].map((day, i) => (
-              <tr key={day} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
-                <td className="p-3 font-medium">{day}</td>
-                <td className="p-3">Trening {i + 1}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  );
-}
-
-/* src/components/Gallery.tsx */
-const images = Array.from({ length: 6 }, (_, i) => `/images/gallery${i + 1}.webp`);
-export default function Gallery() {
-  return (
-    <section id="gallery" className="py-16 bg-gray-50">
-      <h2 className="text-3xl font-semibold text-center mb-8">Galeria</h2>
-      <div className="max-w-5xl mx-auto grid gap-4 grid-cols-2 md:grid-cols-3">
-        {images.map((src) => (
-          <img key={src} src={src} alt="Scena treningowa" loading="lazy" className="w-full h-48 object-cover rounded-lg shadow" />
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* src/components/ContactForm.tsx */
-'use client'
-import { useState } from 'react'
-import { submitContact } from '../utils/api'
-
-export default function ContactForm() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
-  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value })
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setStatus('sending')
-    try {
-      await submitContact(form)
-      setStatus('success')
-      setForm({ name: '', email: '', message: '' })
-    } catch {
-      setStatus('error')
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FITCOACH</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { animation: fadeIn 1s ease-in-out; }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
     }
-  }
+    .card-hover:hover {
+      transform: scale(1.03);
+      transition: 0.3s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .popup { display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; max-width: 90%; }
+    .popup.active { display: block; }
+    .popup-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4); z-index: 999; }
+    .popup-overlay.active { display: block; }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans scroll-smooth">
 
-  return (
-    <section id="contact" className="py-16 bg-white">
-      <h2 className="text-3xl font-semibold text-center mb-6">Kontakt</h2>
-      <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-sm font-medium">Imię</label>
-          <input
-            id="name" name="name" type="text" required
-            value={form.name} onChange={handleChange}
-            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
-            aria-required="true"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-sm font-medium">Email</label>
-          <input
-            id="email" name="email" type="email" required
-            value={form.email} onChange={handleChange}
-            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
-            aria-required="true"
-          />
-        </div>
-        <div>
-          <label htmlFor="message" className="block text-sm font-medium">Wiadomość</label>
-          <textarea
-            id="message" name="message" rows={4} required
-            value={form.message} onChange={handleChange}
-            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
-            aria-required="true"
-          />
-        </div>
-        <button
-          type="submit"
-          disabled={status === 'sending'}
-          className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
-        >
-          {status === 'sending' ? 'Wysyłam...' : 'Wyślij wiadomość'}
-        </button>
-        {status === 'success' && <p className="text-green-600 mt-2">Dziękuję! Odpowiem wkrótce.</p>}
-        {status === 'error' && <p className="text-red-600 mt-2">Coś poszło nie tak. Spróbuj ponownie.</p>}
-      </form>
-    </section>
-}
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 bg-blue-600 text-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-bold tracking-wide">FITCOACH</h1>
+      <nav class="space-x-6 text-lg font-medium">
+        <a href="#pricing" class="hover:text-blue-200 transition">Cennik</a>
+        <a href="#schedule" class="hover:text-blue-200 transition">Harmonogram</a>
+        <a href="#coach" class="hover:text-blue-200 transition">Trener</a>
+        <a href="#gallery" class="hover:text-blue-200 transition">Galeria</a>
+        <a href="#form" class="hover:text-blue-200 transition">Kontakt</a>
+      </nav>
+    </div>
+  </header>
 
-/* src/pages/index.tsx */
-import Head from 'next/head'
-import Hero from '../components/Hero'
-import AboutCoach from '../components/AboutCoach'
-import Pricing from '../components/Pricing'
-import Schedule from '../components/Schedule'
-import Gallery from '../components/Gallery'
-import ContactForm from '../components/ContactForm'
+  <!-- HERO -->
+<section class="bg-gradient-to-r from-blue-100 to-blue-200 fade-in">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 py-20 px-6">
+    <!-- Logo (po lewej) -->
+    <div class="md:w-1/3 flex justify-center md:justify-start">
+      <img src="fitcoachlogo.png" alt="FitCoach Logo" class="w-auto h-auto" />
+    </div>
+    <!-- Tekst (po prawej) -->
+    <div class="md:w-2/3 text-center md:text-left">
+      <h1 class="text-5xl font-extrabold text-blue-700 mb-6">FITCOACH</h1>
+      <p class="text-xl text-blue-900 mb-8">Trening. Motywacja. Zdrowie. Twój fitness start tutaj!</p>
+      <a href="#form" class="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition">Dołącz teraz</a>
+    </div>
+  </div>
+</section>
 
-export default function Home() {
-  return (
-    <>  
-      <Head>
-        <title>FITCOACH – Twój trener personalny online</title>
-        <meta name="description" content="Profesjonalny trener personalny, plany treningowe i dietetyczne online. Dołącz już dziś!" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:title" content="FITCOACH – Twój trener personalny online" />
-        <meta property="og:description" content="Profesjonalny trener personalny, plany treningowe i dietetyczne online. Dołącz już dziś!" />
-        <meta property="og:image" content="/images/og-image.webp" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className="bg-gray-50 text-gray-900">
-        <Hero />
-        <AboutCoach />
-        <Pricing />
-        <Schedule />
-        <Gallery />
-        <ContactForm />
-      </main>
-    </>
-  )
-}
+
+ <!-- TRENER -->
+  <section id="coach" class="py-20 px-6 bg-white text-center fade-in">
+    <h2 class="text-4xl font-bold text-blue-700 mb-12">Poznaj Trenera</h2>
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <div class="flex flex-col items-center">
+        <img src="trener.png" alt="Trener" class="w-72 rounded-lg shadow" />
+      </div>
+      <div class="text-left">
+        <h3 class="text-2xl font-bold text-blue-600 mb-4">Tomasz Kowalski</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Tomasz to doświadczony trener personalny z ponad 10-letnim stażem w branży fitness. Jego pasja do sportu zaczęła się już w dzieciństwie, a dziś pomaga setkom osób osiągać swoje cele zdrowotne i sylwetkowe.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Specjalizuje się w treningach siłowych, redukcji masy ciała oraz przygotowaniu motorycznym. Łączy wiedzę z zakresu anatomii, dietetyki i psychologii sportu, tworząc indywidualne podejście do każdego podopiecznego.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          Poza siłownią pasjonuje się gotowaniem, podróżami i rozwojem osobistym. Jego motto: <em>"Nie ma rzeczy niemożliwych, są tylko te, których jeszcze nie próbowałeś."</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- CENNIK -->
+  <section id="pricing" class="py-20 px-6 bg-white fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-16">Cennik</h2>
+    <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div class="border p-6 rounded-lg card-hover bg-blue-50">
+        <h3 class="text-2xl font-semibold text-blue-600 mb-4">Basic</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Dostęp do planów</li>
+          <li>1x konsultacja miesięcznie</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">99 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+      <div class="border p-6 rounded-lg card-hover bg-blue-100 shadow-lg">
+        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Pro</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Plan + dieta</li>
+          <li>Konsultacje video</li>
+          <li>Wsparcie mailowe</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">199 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+      <div class="border p-6 rounded-lg card-hover bg-blue-50">
+        <h3 class="text-2xl font-semibold text-blue-600 mb-4">VIP</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Treningi 1:1</li>
+          <li>Pełny plan + dieta + konsultacje</li>
+          <li>Wsparcie 24/7</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">399 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LICZNIK -->
+  <section class="py-20 px-6 bg-blue-50 text-center">
+    <h2 class="text-3xl font-bold text-blue-700 mb-4">Zaufali nam</h2>
+    <p class="text-6xl font-bold text-blue-600" id="counter">0</p>
+    <p class="text-lg text-blue-800">zadowolonych klientów</p>
+  </section>
+
+  <!-- HARMONOGRAM -->
+  <section id="schedule" class="py-20 px-6 bg-blue-50 fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-12">Harmonogram tygodnia</h2>
+    <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto text-center">
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Poniedziałek</h4><p>Siłownia – 18:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Wtorek</h4><p>Joga – 19:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Środa</h4><p>Cardio – 17:30</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Czwartek</h4><p>Stretching – 19:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Piątek</h4><p>Trening funkcjonalny – 18:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Sobota</h4><p>Outdoor – 10:00</p></div>
+    </div>
+  </section>
+
+  <!-- GALERIA z ćwiczeniami -->
+  <section id="gallery" class="py-20 px-6 bg-white text-center">
+    <h2 class="text-4xl font-bold text-blue-700 mb-12">Galeria Treningów</h2>
+    <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <img src="pompki.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Pompka" onclick="showPopup('Pompki', 'Pozycja deski, napięty brzuch, łokcie blisko ciała. Wdech w dół, wydech w górę.')" />
+      <img src="przysiady.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Przysiad" onclick="showPopup('Przysiady', 'Stopy na szerokość barków, kolana nie wychodzą poza palce. Schodź nisko, plecy proste.')" />
+      <img src="brzuszki.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Brzuszki" onclick="showPopup('Brzuszki', 'Połóż się na plecach, dłonie za głową, podbródek nie przy klatce. Unieś barki napięciem brzucha.')" />
+    </div>
+  </section>
+
+  <!-- FORMULARZ -->
+  <section id="form" class="py-20 px-6 bg-blue-100 fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-12">Skontaktuj się</h2>
+    <form class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-xl space-y-6">
+      <input type="text" placeholder="Imię" class="w-full p-3 border rounded" required />
+      <input type="email" placeholder="Email" class="w-full p-3 border rounded" required />
+      <textarea placeholder="Wiadomość" class="w-full p-3 border rounded" rows="4" required></textarea>
+      <button type="submit" class="bg-blue-600 text-white w-full py-3 rounded-full hover:bg-blue-700 transition transform hover:scale-105">Wyślij</button>
+    </form>
+  </section>
+
+  <!-- STOPKA -->
+  <footer class="text-center py-6 text-sm text-blue-700 bg-white">© 2025 FITYCOACH. Wszelkie prawa zastrzeżone.</footer>
+
+  <!-- POPUP -->
+  <div id="popupOverlay" class="popup-overlay" onclick="hidePopup()"></div>
+  <div id="popupBox" class="popup">
+    <h3 class="text-2xl font-bold text-blue-700 mb-2" id="popupTitle"></h3>
+    <p class="text-gray-700" id="popupText"></p>
+  </div>
+
+  <script>
+    // Licznik
+    let count = 0;
+    const counter = document.getElementById("counter");
+    const target = 376;
+    const speed = 20;
+    const updateCount = () => {
+      if (count < target) {
+        count += Math.ceil((target - count) / 10);
+        counter.innerText = count;
+        setTimeout(updateCount, speed);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    window.onload = updateCount;
+
+    // Popup
+    function showPopup(title, text) {
+      document.getElementById("popupTitle").innerText = title;
+      document.getElementById("popupText").innerText = text;
+      document.getElementById("popupBox").classList.add("active");
+      document.getElementById("popupOverlay").classList.add("active");
+    }
+
+    function hidePopup() {
+      document.getElementById("popupBox").classList.remove("active");
+      document.getElementById("popupOverlay").classList.remove("active");
+    }
+  </script>
+</body>
+</html>
