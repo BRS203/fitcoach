@@ -1,0 +1,295 @@
+/* next.config.js */
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: [],
+  },
+};
+
+/* tailwind.config.js */
+module.exports = {
+  content: [
+    './src/**/*.{js,ts,jsx,tsx}',
+    './public/index.html'
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+};
+
+/* tsconfig.json */
+{
+  "compilerOptions": {
+    "target": "es5",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve"
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"]
+}
+
+/* package.json */
+{
+  "name": "fitcoach",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "tailwindcss": "^3.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.0.0",
+    "postcss": "^8.0.0",
+    "typescript": "^4.0.0"
+  }
+}
+
+/* postcss.config.js */
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+
+/* src/styles/globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* src/utils/api.ts */
+export async function submitContact({ name, email, message }: { name: string; email: string; message: string }) {
+  const res = await fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name, email, message }),
+  });
+  if (!res.ok) throw new Error('Network error');
+  return res.json();
+}
+
+/* src/components/Hero.tsx */
+export default function Hero() {
+  return (
+    <section id="hero" className="relative h-screen flex items-center justify-center bg-gradient-to-br from-blue-500 to-green-500 text-white">
+      <div className="text-center">
+        <h1 className="text-5xl font-bold mb-4">FITCOACH</h1>
+        <p className="text-xl mb-6">Twój osobisty trener online - zacznij swoją przemianę dziś!</p>
+        <a href="#contact" className="bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">Skontaktuj się</a>
+      </div>
+    </section>
+  );
+}
+
+/* src/components/AboutCoach.tsx */
+export default function AboutCoach() {
+  return (
+    <section id="about" className="py-16 bg-white">
+      <div className="max-w-4xl mx-auto flex flex-col md:flex-row items-center">
+        <img src="/images/coach.webp" alt="Trener FITCOACH" className="w-full md:w-1/2 rounded-lg shadow-lg mb-8 md:mb-0" loading="lazy" />
+        <div className="md:ml-10">
+          <h2 className="text-3xl font-semibold mb-4">O mnie</h2>
+          <p className="text-gray-700 mb-4">
+            Jestem certyfikowanym trenerem personalnym z 10-letnim doświadczeniem. Specjalizuję się w treningach siłowych oraz dietetyce sportowej.
+          </p>
+          <p className="text-gray-700">
+            Pomogłem setkom osób osiągnąć ich cele fitness – od utraty wagi, przez budowę masy mięśniowej, po poprawę wydolności.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* src/components/Pricing.tsx */
+const plans = [
+  { name: 'Podstawowy', price: '99 PLN', features: ['Plan tygodniowy', 'Wsparcie email'] },
+  { name: 'Standard', price: '199 PLN', features: ['Plan miesięczny', 'Wsparcie telefoniczne'] },
+  { name: 'Premium', price: '299 PLN', features: ['Plan kwartalny', 'Sesje video 1:1'] },
+];
+export default function Pricing() {
+  return (
+    <section id="pricing" className="py-16 bg-gray-50">
+      <h2 className="text-3xl font-semibold text-center mb-8">Cennik</h2>
+      <div className="max-w-4xl mx-auto grid gap-6 md:grid-cols-3">
+        {plans.map((plan) => (
+          <div key={plan.name} className="bg-white p-6 rounded-lg shadow hover:shadow-lg transition">
+            <h3 className="text-2xl font-bold mb-4">{plan.name}</h3>
+            <p className="text-4xl font-semibold mb-4">{plan.price}</p>
+            <ul className="mb-6 space-y-2">
+              {plan.features.map((f) => (
+                <li key={f} className="flex items-center">
+                  <span className="mr-2">✔️</span> {f}
+                </li>
+              ))}
+            </ul>
+            <a href="#contact" className="block text-center bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">Wybierz</a>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* src/components/Schedule.tsx */
+export default function Schedule() {
+  return (
+    <section id="schedule" className="py-16 bg-white">
+      <h2 className="text-3xl font-semibold text-center mb-8">Harmonogram</h2>
+      <div className="max-w-3xl mx-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="p-3">Dzień</th>
+              <th className="p-3">Trening</th>
+            </tr>
+          </thead>
+          <tbody>
+            {['Pon', 'Wt', 'Śr', 'Czw', 'Pt'].map((day, i) => (
+              <tr key={day} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                <td className="p-3 font-medium">{day}</td>
+                <td className="p-3">Trening {i + 1}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  );
+}
+
+/* src/components/Gallery.tsx */
+const images = Array.from({ length: 6 }, (_, i) => `/images/gallery${i + 1}.webp`);
+export default function Gallery() {
+  return (
+    <section id="gallery" className="py-16 bg-gray-50">
+      <h2 className="text-3xl font-semibold text-center mb-8">Galeria</h2>
+      <div className="max-w-5xl mx-auto grid gap-4 grid-cols-2 md:grid-cols-3">
+        {images.map((src) => (
+          <img key={src} src={src} alt="Scena treningowa" loading="lazy" className="w-full h-48 object-cover rounded-lg shadow" />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* src/components/ContactForm.tsx */
+'use client'
+import { useState } from 'react'
+import { submitContact } from '../utils/api'
+
+export default function ContactForm() {
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus('sending')
+    try {
+      await submitContact(form)
+      setStatus('success')
+      setForm({ name: '', email: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
+  }
+
+  return (
+    <section id="contact" className="py-16 bg-white">
+      <h2 className="text-3xl font-semibold text-center mb-6">Kontakt</h2>
+      <form onSubmit={handleSubmit} className="max-w-lg mx-auto space-y-4">
+        <div>
+          <label htmlFor="name" className="block text-sm font-medium">Imię</label>
+          <input
+            id="name" name="name" type="text" required
+            value={form.name} onChange={handleChange}
+            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
+            aria-required="true"
+          />
+        </div>
+        <div>
+          <label htmlFor="email" className="block text-sm font-medium">Email</label>
+          <input
+            id="email" name="email" type="email" required
+            value={form.email} onChange={handleChange}
+            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
+            aria-required="true"
+          />
+        </div>
+        <div>
+          <label htmlFor="message" className="block text-sm font-medium">Wiadomość</label>
+          <textarea
+            id="message" name="message" rows={4} required
+            value={form.message} onChange={handleChange}
+            className="mt-1 w-full border rounded p-2 focus:outline-none focus:ring"
+            aria-required="true"
+          />
+        </div>
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className="w-full bg-blue-600 text-white py-2 rounded disabled:opacity-50"
+        >
+          {status === 'sending' ? 'Wysyłam...' : 'Wyślij wiadomość'}
+        </button>
+        {status === 'success' && <p className="text-green-600 mt-2">Dziękuję! Odpowiem wkrótce.</p>}
+        {status === 'error' && <p className="text-red-600 mt-2">Coś poszło nie tak. Spróbuj ponownie.</p>}
+      </form>
+    </section>
+}
+
+/* src/pages/index.tsx */
+import Head from 'next/head'
+import Hero from '../components/Hero'
+import AboutCoach from '../components/AboutCoach'
+import Pricing from '../components/Pricing'
+import Schedule from '../components/Schedule'
+import Gallery from '../components/Gallery'
+import ContactForm from '../components/ContactForm'
+
+export default function Home() {
+  return (
+    <>  
+      <Head>
+        <title>FITCOACH – Twój trener personalny online</title>
+        <meta name="description" content="Profesjonalny trener personalny, plany treningowe i dietetyczne online. Dołącz już dziś!" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta property="og:title" content="FITCOACH – Twój trener personalny online" />
+        <meta property="og:description" content="Profesjonalny trener personalny, plany treningowe i dietetyczne online. Dołącz już dziś!" />
+        <meta property="og:image" content="/images/og-image.webp" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <main className="bg-gray-50 text-gray-900">
+        <Hero />
+        <AboutCoach />
+        <Pricing />
+        <Schedule />
+        <Gallery />
+        <ContactForm />
+      </main>
+    </>
+  )
+}

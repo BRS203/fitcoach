@@ -1,0 +1,4 @@
+ W pliku który pod podsyłam jest zawarty kod html do strony wiedzac jak ona wyglada i co jest w niej zawarte tworzymy teraz fikcyjne strony tak aby mozna bylo je dodac na git huba oraz useme aby otrzymac zlecenia jako freelancer. Mysle ze nasza pierwsza strona bedzie strona o trenera personalnego która będzie nosiła nazwę FITCOACH ta strona ma zawierać między innymi:
+-cennik
+-harmonogram
+-lead-form
