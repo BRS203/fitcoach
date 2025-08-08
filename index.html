@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FITCOACH</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in { animation: fadeIn 1s ease-in-out; }
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(20px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+    .card-hover:hover {
+      transform: scale(1.03);
+      transition: 0.3s;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+    }
+    .popup { display: none; position: fixed; top: 20%; left: 50%; transform: translateX(-50%); background: white; padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 1000; }
+    .popup.active { display: block; }
+    .popup-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.4); z-index: 999; }
+    .popup-overlay.active { display: block; }
+  </style>
+</head>
+<body class="bg-white text-gray-800 font-sans scroll-smooth">
+
+  <!-- NAVBAR -->
+  <header class="sticky top-0 z-50 bg-blue-600 text-white shadow">
+    <div class="max-w-6xl mx-auto flex justify-between items-center px-6 py-4">
+      <h1 class="text-2xl font-bold tracking-wide">FITCOACH</h1>
+      <nav class="space-x-6 text-lg font-medium">
+        <a href="#pricing" class="hover:text-blue-200 transition">Cennik</a>
+        <a href="#schedule" class="hover:text-blue-200 transition">Harmonogram</a>
+        <a href="#coach" class="hover:text-blue-200 transition">Trener</a>
+        <a href="#gallery" class="hover:text-blue-200 transition">Galeria</a>
+        <a href="#form" class="hover:text-blue-200 transition">Kontakt</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="bg-gradient-to-r from-blue-100 to-blue-200 fade-in">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-12 py-20 px-6">
+      <!-- Logo (po lewej) -->
+      <div class="md:w-1/3 flex justify-center md:justify-start">
+        <img src="fitcoachlogo.png" alt="FitCoach Logo" class="w-auto h-auto" />
+      </div>
+      <!-- Tekst (po prawej) -->
+      <div class="md:w-2/3 text-center md:text-left">
+        <h1 class="text-5xl font-extrabold text-blue-700 mb-6">FITCOACH</h1>
+        <p class="text-xl text-blue-900 mb-8">Trening. Motywacja. Zdrowie. Twój fitness start tutaj!</p>
+        <a href="#form" class="bg-blue-600 text-white px-8 py-4 rounded-full hover:bg-blue-700 transition">Dołącz teraz</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRENER -->
+  <section id="coach" class="py-20 px-6 bg-white text-center fade-in">
+    <h2 class="text-4xl font-bold text-blue-700 mb-12">Poznaj Trenera</h2>
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-8 items-center">
+      <div class="flex flex-col items-center">
+        <img src="trener.png" alt="Trener" class="w-72 rounded-lg shadow" />
+      </div>
+      <div class="text-left">
+        <h3 class="text-2xl font-bold text-blue-600 mb-4">Tomasz Kowalski</h3>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Tomasz to doświadczony trener personalny z ponad 10-letnim stażem w branży fitness. Jego pasja do sportu zaczęła się już w dzieciństwie, a dziś pomaga setkom osób osiągać swoje cele.
+        </p>
+        <p class="text-gray-700 leading-relaxed mb-4">
+          Specjalizuje się w treningach siłowych, redukcji masy ciała oraz przygotowaniu motorycznym. Łączy wiedzę z zakresu anatomii, dietetyki i psychologii sportu, tworząc indywidualne podejście do każdego podopiecznego.
+        </p>
+        <p class="text-gray-700 leading-relaxed">
+          Poza siłownią pasjonuje się gotowaniem, podróżami i rozwojem osobistym. Jego motto: <em>"Nie ma rzeczy niemożliwych, są tylko te, których jeszcze nie próbowałeś."</em>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENNIK -->
+  <section id="pricing" class="py-20 px-6 bg-white fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-16">Cennik</h2>
+    <div class="grid md:grid-cols-3 gap-10 max-w-6xl mx-auto">
+      <div class="border p-6 rounded-lg card-hover bg-blue-50">
+        <h3 class="text-2xl font-semibold text-blue-600 mb-4">Basic</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Dostęp do planów</li>
+          <li>1x konsultacja miesięcznie</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">99 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+      <div class="border p-6 rounded-lg card-hover bg-blue-100 shadow-lg">
+        <h3 class="text-2xl font-semibold text-blue-700 mb-4">Pro</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Plan + dieta</li>
+          <li>Konsultacje video</li>
+          <li>Wsparcie mailowe</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">199 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+      <div class="border p-6 rounded-lg card-hover bg-blue-50">
+        <h3 class="text-2xl font-semibold text-blue-600 mb-4">VIP</h3>
+        <ul class="text-gray-700 mb-6 list-disc list-inside">
+          <li>Treningi 1:1</li>
+          <li>Pełny plan + dieta + konsultacje</li>
+          <li>Wsparcie 24/7</li>
+        </ul>
+        <p class="text-3xl font-bold text-blue-700 mb-4">399 zł</p>
+        <button class="bg-blue-600 text-white w-full py-2 rounded hover:bg-blue-700 transition">Wybierz</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- LICZNIK -->
+  <section class="py-20 px-6 bg-blue-50 text-center">
+    <h2 class="text-3xl font-bold text-blue-700 mb-4">Zaufali nam</h2>
+    <p class="text-6xl font-bold text-blue-600" id="counter">0</p>
+    <p class="text-lg text-blue-800">zadowolonych klientów</p>
+  </section>
+
+  <!-- HARMONOGRAM -->
+  <section id="schedule" class="py-20 px-6 bg-blue-50 fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-12">Harmonogram tygodnia</h2>
+    <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto text-center">
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Poniedziałek</h4><p>Siłownia – 18:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Wtorek</h4><p>Joga – 19:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Środa</h4><p>Cardio – 17:30</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Czwartek</h4><p>Stretching – 19:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Piątek</h4><p>Trening funkcjonalny – 18:00</p></div>
+      <div class="bg-white p-6 rounded-lg shadow-md"><h4 class="font-semibold text-blue-600 text-xl mb-2">Sobota</h4><p>Outdoor – 10:00</p></div>
+    </div>
+  </section>
+
+  <!-- GALERIA z ćwiczeniami -->
+  <section id="gallery" class="py-20 px-6 bg-white text-center">
+    <h2 class="text-4xl font-bold text-blue-700 mb-12">Galeria Treningów</h2>
+    <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <img src="pompki.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Pompka" onclick="showPopup('Pompki', 'Pozycja deski, napięty brzuch, łokcie blisko ciała. Wdech podczas opuszczania, wydech przy wypychaniu do góry.')" />
+      <img src="przysiady.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Przysiad" onclick="showPopup('Przysiady', 'Stopy na szerokość barków, kolana nie wychodzą poza linię palców. Schodzisz w dół z prostymi plecami, wracasz do góry napinając pośladki.')" />
+      <img src="brzuszki.png" class="rounded shadow-lg hover:scale-105 transition cursor-pointer" alt="Brzuszki" onclick="showPopup('Brzuszki', 'Połóż się na plecach, dłonie za głową, podbródek lekko do klatki piersiowej. Wykonuj ruch z napięciem mięśni brzucha, nie ciągnij głowy rękami.')" />
+    </div>
+  </section>
+
+  <!-- FORMULARZ -->
+  <section id="form" class="py-20 px-6 bg-blue-100 fade-in">
+    <h2 class="text-4xl font-bold text-center text-blue-700 mb-12">Skontaktuj się</h2>
+    <form class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-xl space-y-6">
+      <input type="text" placeholder="Imię" class="w-full p-3 border rounded" required />
+      <input type="email" placeholder="Email" class="w-full p-3 border rounded" required />
+      <textarea placeholder="Wiadomość" class="w-full p-3 border rounded" rows="4" required></textarea>
+      <button type="submit" class="bg-blue-600 text-white w-full py-3 rounded-full hover:bg-blue-700 transition transform hover:scale-105">Wyślij</button>
+    </form>
+  </section>
+
+  <!-- STOPKA -->
+  <footer class="text-center py-6 text-sm text-blue-700 bg-white">© 2025 FITCOACH. Wszelkie prawa zastrzeżone.</footer>
+
+  <!-- POPUP -->
+  <div id="popupOverlay" class="popup-overlay" onclick="hidePopup()"></div>
+  <div id="popupBox" class="popup">
+    <h3 class="text-2xl font-bold text-blue-700 mb-2" id="popupTitle"></h3>
+    <p class="text-gray-700" id="popupText"></p>
+  </div>
+
+  <script>
+    // Licznik
+    let count = 0;
+    const counter = document.getElementById("counter");
+    const target = 376;
+    const speed = 20;
+    const updateCount = () => {
+      if (count < target) {
+        count += Math.ceil((target - count) / 10);
+        counter.innerText = count;
+        setTimeout(updateCount, speed);
+      } else {
+        counter.innerText = target;
+      }
+    };
+    window.onload = updateCount;
+
+    // Popup
+    function showPopup(title, text) {
+      document.getElementById("popupTitle").innerText = title;
+      document.getElementById("popupText").innerText = text;
+      document.getElementById("popupBox").classList.add("active");
+      document.getElementById("popupOverlay").classList.add("active");
+    }
+
+    function hidePopup() {
+      document.getElementById("popupBox").classList.remove("active");
+      document.getElementById("popupOverlay").classList.remove("active");
+    }
+  </script>
+</body>
+</html>
